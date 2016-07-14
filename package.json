@@ -13,5 +13,10 @@
     "audio"
   ],
   "author": "dcalacci@media.mit.edu",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "digitalsignals": "^1.0.0",
+    "lodash": "^4.13.1",
+    "microevent": "^1.0.0"
+  }
 }
