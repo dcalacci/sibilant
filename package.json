@@ -1,0 +1,17 @@
+{
+  "name": "sibilant",
+  "version": "0.1.0",
+  "description": "detect speaking events from web audio",
+  "main": "sibilant.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "audio",
+    "speaking",
+    "web",
+    "audio"
+  ],
+  "author": "dcalacci@media.mit.edu",
+  "license": "MIT"
+}
