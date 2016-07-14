@@ -4,7 +4,7 @@ const _ = require('lodash')
 // get audio context
 const AudioContextType = window.webkitAudioContext || window.AudioContext
 
-// f_1 band for human voice range
+// f_1 band for (most) human voice range
 var LOW_FREQ_CUT = 85
 var HIGH_FREQ_CUT = 583
 var bandPassMiddleFrequency = ((HIGH_FREQ_CUT - LOW_FREQ_CUT) / 2) + LOW_FREQ_CUT
@@ -19,23 +19,14 @@ function bandPassFilterNode (audioContext) {
   return bandpass
 }
 
-function speakingDetectionNode (audioContext, analyser, threshold, speakingCallback) {
+function speakingDetectionNode (audioContext, analyser, threshold, emitter) {
   var javascriptNode = audioContext.createScriptProcessor(2048, 1, 1)
   var speakingTimes = []
   var quietHistory = [] // only contains continuous 'quiet' times
   var currentVolume = -Infinity
 
   var hasStoppedSpeaking = function () {
-    return (_.max(quietHistory) - _.min(quietHistory) > 1000)
-  }
-
-  var sendSpeakingEvent = function () {
-    speakingCallback(
-      {
-        start: _.min(speakingTimes),
-        end: _.max(speakingTimes)
-      }
-    )
+    return (_.max(quietHistory) - _.min(quietHistory) > 500)
   }
 
   javascriptNode.onaudioprocess = function () {
@@ -43,13 +34,15 @@ function speakingDetectionNode (audioContext, analyser, threshold, speakingCallb
     analyser.getFloatFrequencyData(fftBins)
     var maxVolume = _.max(_.filter(fftBins, function (v) { return v < 0 }))
     currentVolume = maxVolume
+    emitter.trigger('volumeChange', currentVolume)
     // speaking, add the date to the stack, clear quiet record
     if (currentVolume > threshold) {
+      emitter.trigger('speaking')
       speakingTimes.push(new Date())
       quietHistory = []
     } else if (speakingTimes.length > 0) {
       if (hasStoppedSpeaking()) {
-        sendSpeakingEvent()
+        emitter.trigger('stoppedSpeaking', {'start': _.min(speakingTimes), 'end': _.max(speakingTimes)})
         speakingTimes = []
       } else {
         quietHistory.push(new Date())
@@ -61,31 +54,34 @@ function speakingDetectionNode (audioContext, analyser, threshold, speakingCallb
 
 var Sibilant = function (element, options) {
   options = options || {}
+  var self = this
   // var useBandPass = (options.useBandPass || true)
   var fftSize = (options.fftSize || 512)
-  var threshold = (options.threshold || -35)
+  var threshold = (options.threshold || -40)
   var smoothing = (options.smoothing || 0.2)
-  var self = this
+  var passThrough = (options.passThrough || false)
   var audioContext = new AudioContextType()
 
   var analyser = audioContext.createAnalyser()
   analyser.fftSize = fftSize
   analyser.smoothingTimeConstant = smoothing
 
-  console.log('element:', element)
+  var audioSource = null
   // assume webRTC for now
-  var audioSource = audioContext.createMediaStreamSource(element)
-  var speakingNode = speakingDetectionNode(audioContext, analyser, threshold, function (obj) {
-    self.trigger('spoke', obj)
-  })
+  if (element instanceof HTMLAudioElement || element instanceof HTMLVideoElement) {
+    audioSource = audioContext.createMediaElementSource(element)
+  } else {
+    audioSource = audioContext.createMediaStreamSource(element)
+  }
+  var speakingNode = speakingDetectionNode(audioContext, analyser, threshold, self)
   var bandPassNode = bandPassFilterNode(audioContext)
   audioSource.connect(analyser)
+  if (passThrough) {
+    console.log('passing through', element)
+    analyser.connect(audioContext.destination)
+  }
   analyser.connect(bandPassNode)
   bandPassNode.connect(speakingNode)
-  analyser.connect(audioContext.destination)
-  /* analyser.connect(bandPassFilterNode)
-   * bandPassNode.connect(speakingNode)
-   * analyser.connect(audioContext.destination)*/
 }
 
 microevent.mixin(Sibilant)

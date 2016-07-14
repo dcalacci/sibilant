@@ -1,0 +1,36 @@
+<style>
+ body {
+   font-family: 'Helvetica'
+ }
+ #title {
+   color: #555;
+   margin-bottom: 20px;
+ }
+ .window {
+   width: 480px;
+   float: left;
+   overflow: hidden;
+   padding: 30px;
+   margin-top: 5px;
+   margin-left: 5px;
+ }
+ #vid video {
+   border: 10px solid #555;
+ }
+</style>
+
+<div id='title'>
+  <h1>sibilant demo</h1>
+  <h2>It'll go green when you or Jon Ronson are speaking</h2>  
+</div>
+
+<div class='window' id='vid'>
+  <video width=480></video>
+</div>
+
+<div class='window' id='ronson'>
+  <audio controls>
+    <source src='http://www.jonronson.com/Jon_Ronson_Sleuths.mp3' type='audio/mp3'/>
+  </audio>
+</div>
+<script src='demo.bundle.js'></script>

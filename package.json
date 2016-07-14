@@ -15,8 +15,12 @@
   "author": "dcalacci@media.mit.edu",
   "license": "MIT",
   "dependencies": {
+    "alerts": "^0.1.3",
     "digitalsignals": "^1.0.0",
     "lodash": "^4.13.1",
     "microevent": "^1.0.0"
+  },
+  "devDependencies": {
+    "alerts": "^0.1.3"
   }
 }
