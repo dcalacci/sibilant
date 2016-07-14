@@ -1,6 +1,6 @@
 {
   "name": "sibilant-webaudio",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "detect speaking events from webRTC audio",
   "main": "sibilant.js",
   "scripts": {
