@@ -23,16 +23,3 @@ getUserMedia(function (err, stream) {
     })
   }
 })
-
-var ronson = document.querySelector('#ronson audio')
-console.log(ronson)
-var ronsonSpeakingEvents = new Sibilant(ronson, {passThrough: true})
-ronsonSpeakingEvents.bind('speaking', function () {
-  document.querySelector('#ronson').style.border = '10px solid #27ae60'
-  console.log('speaking!')
-})
-
-ronsonSpeakingEvents.bind('stoppedSpeaking', function (data) {
-  document.querySelector('#ronson').style.border = '10px solid #555'
-  console.log('stopped speaking!')
-})

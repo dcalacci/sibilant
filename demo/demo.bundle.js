@@ -25,19 +25,6 @@ getUserMedia(function (err, stream) {
   }
 })
 
-var ronson = document.querySelector('#ronson audio')
-console.log(ronson)
-var ronsonSpeakingEvents = new Sibilant(ronson, {passThrough: true})
-ronsonSpeakingEvents.bind('speaking', function () {
-  document.querySelector('#ronson').style.border = '10px solid #27ae60'
-  console.log('speaking!')
-})
-
-ronsonSpeakingEvents.bind('stoppedSpeaking', function (data) {
-  document.querySelector('#ronson').style.border = '10px solid #555'
-  console.log('stopped speaking!')
-})
-
 },{"../sibilant.js":17,"alerts":2,"attachmediastream":3,"getusermedia":4}],2:[function(require,module,exports){
 var initialized;
 var container = document.createElement('div');
@@ -19443,7 +19430,6 @@ var Sibilant = function (element, options) {
   }
   var speakingNode = speakingDetectionNode(audioContext, analyser, threshold, self)
   var bandPassNode = bandPassFilterNode(audioContext)
-  console.log('audiosource:', audioSource)
   audioSource.connect(analyser)
   if (passThrough) {
     console.log('passing through', element)
