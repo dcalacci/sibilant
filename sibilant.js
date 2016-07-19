@@ -2,7 +2,7 @@ const microevent = require('microevent')
 const _ = require('lodash')
 
 // get audio context
-const AudioContextType = window.webkitAudioContext || window.AudioContext
+const AudioContextType = window.AudioContext || window.webkitAudioContext
 
 // f_1 band for (most) human voice range
 var LOW_FREQ_CUT = 85
@@ -82,6 +82,8 @@ var Sibilant = function (element, options) {
   }
   analyser.connect(bandPassNode)
   bandPassNode.connect(speakingNode)
+  // needed for chrome onprocessaudio compatibility
+  speakingNode.connect(audioContext.destination)
 }
 
 microevent.mixin(Sibilant)
