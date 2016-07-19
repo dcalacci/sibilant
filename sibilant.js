@@ -82,6 +82,8 @@ var Sibilant = function (element, options) {
   }
   analyser.connect(bandPassNode)
   bandPassNode.connect(speakingNode)
+  // needed for chrome onprocessaudio compatibility
+  speakingNode.connect(audioContext.destination)
 }
 
 microevent.mixin(Sibilant)
