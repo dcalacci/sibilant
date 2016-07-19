@@ -1,30 +1,53 @@
 <style>
- body {
-   font-family: 'Helvetica'
- }
- #title {
-   color: #555;
-   margin-bottom: 20px;
- }
- .window {
-   width: 480px;
-   float: left;
-   overflow: hidden;
-   padding: 30px;
-   margin-top: 5px;
-   margin-left: 5px;
- }
- #vid video {
-   border: 10px solid #555;
- }
+body {
+    font-family: 'Helvetica'
+}
+
+.window {
+    width: 480px;
+    float: left;
+    overflow: hidden;
+    padding: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.console {
+    width: 400px;
+    float: right;
+}
+
+#title {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+#info {
+    font-size: 22px;
+}
+
+#wrapper {
+    margin: 0 auto;
+    width: 950px;
+    overflow: hidden;
+}
+
+#vid video {
+    border: 10px solid #555;
+}
 </style>
-
-<div id='title'>
-  <h1>sibilant demo</h1>
-  <h2>It'll go green when you speak!</h2>  
-</div>
-
-<div class='window' id='vid'>
-  <video width=480></video>
+<div id="wrapper">
+    <div id='title'>
+        <h1>sibilant demo</h1>
+        <h2>It'll go green when you speak!</h2>
+    </div>
+    <div class='window' id='vid'>
+        <video width=480></video>
+    </div>
+    <div class="console" s>
+        <h2>Alerts</h2>
+        <div id="info">
+        </div>
+    </div>
 </div>
 <script src='demo.bundle.js'></script>

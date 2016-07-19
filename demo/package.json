@@ -1,0 +1,21 @@
+{
+  "name": "rhythm-server-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "alerts": "^0.1.3",
+    "attachmediastream": "^1.4.1",
+    "browserify": "^13.0.1",
+    "feathers-client": "^1.5.1",
+    "getusermedia": "^2.0.0",
+    "jquery": "^3.1.0",
+    "sibilant-webaudio": "^0.1.1",
+    "socket.io-client": "^1.4.8"
+  }
+}
