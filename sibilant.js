@@ -2,7 +2,7 @@ const microevent = require('microevent')
 const _ = require('lodash')
 
 // get audio context
-const AudioContextType = window.webkitAudioContext || window.AudioContext
+const AudioContextType = window.AudioContext || window.webkitAudioContext
 
 // f_1 band for (most) human voice range
 var LOW_FREQ_CUT = 85
