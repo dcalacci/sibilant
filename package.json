@@ -1,6 +1,6 @@
 {
   "name": "sibilant-webaudio",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "detect speaking events from webRTC audio",
   "main": "sibilant.js",
   "scripts": {
@@ -18,6 +18,6 @@
     "microevent": "^1.0.0"
   },
   "devDependencies": {
-    "alerts": "^0.1.4"
+    "alerts": "^0.1.3"
   }
 }
