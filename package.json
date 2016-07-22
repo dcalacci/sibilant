@@ -18,6 +18,6 @@
     "microevent": "^1.0.0"
   },
   "devDependencies": {
-    "alerts": "^0.1.3"
+    "alerts": "^0.1.4"
   }
 }
