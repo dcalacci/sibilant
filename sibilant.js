@@ -24,6 +24,7 @@ function speakingDetectionNode (audioContext, analyser, threshold, emitter) {
   var speakingTimes = []
   var quietHistory = [] // only contains continuous 'quiet' times
   var currentVolume = -Infinity
+  var volumes = []
 
   var hasStoppedSpeaking = function () {
     return (_.max(quietHistory) - _.min(quietHistory) > 500)
@@ -34,6 +35,7 @@ function speakingDetectionNode (audioContext, analyser, threshold, emitter) {
     analyser.getFloatFrequencyData(fftBins)
     var maxVolume = _.max(_.filter(fftBins, function (v) { return v < 0 }))
     currentVolume = maxVolume
+    volumes.push(currentVolume)
     emitter.trigger('volumeChange', currentVolume)
     // speaking, add the date to the stack, clear quiet record
     if (currentVolume > threshold) {
@@ -42,7 +44,8 @@ function speakingDetectionNode (audioContext, analyser, threshold, emitter) {
       quietHistory = []
     } else if (speakingTimes.length > 0) {
       if (hasStoppedSpeaking()) {
-        emitter.trigger('stoppedSpeaking', {'start': _.min(speakingTimes), 'end': _.max(speakingTimes)})
+        emitter.trigger('stoppedSpeaking', {'start': _.min(speakingTimes), 'end': _.max(speakingTimes), 'volumes': volumes})
+        volumes = []
         speakingTimes = []
       } else {
         quietHistory.push(new Date())
