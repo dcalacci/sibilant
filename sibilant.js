@@ -35,7 +35,8 @@ function speakingDetectionNode (audioContext, analyser, threshold, emitter) {
     analyser.getFloatFrequencyData(fftBins)
     var maxVolume = _.max(_.filter(fftBins, function (v) { return v < 0 }))
     currentVolume = maxVolume
-    volumes.push(currentVolume)
+    volumes.push({timestamp: Date.now(),
+                  vol: currentVolume})
     emitter.trigger('volumeChange', currentVolume)
     // speaking, add the date to the stack, clear quiet record
     if (currentVolume > threshold) {
