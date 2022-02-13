@@ -30,7 +30,7 @@ function bandPassFilterNode (audioContext) {
   var bandpass = audioContext.createBiquadFilter();
   bandpass.type = 'bandpass';
   bandpass.frequency.value = bandPassMiddleFrequency;
-  bandpass.Q = Q;
+  bandpass.Q.value = Q;
   return bandpass;
 }
 
